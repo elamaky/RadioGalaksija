@@ -80,43 +80,32 @@ function decreaseFontSize() {
 }
 //   ZA ANI TEXT
 const button = document.getElementById("slova");
-let iframe = null;
+let slovaContent = null;
 
-button.addEventListener("click", () => {
-  if (!iframe) {
-    // Kreiraj iframe element
-    iframe = document.createElement("iframe");
-    iframe.src = "slova.html"; // Postavite src na `slova.html`
-    iframe.style.position = "fixed";
-    iframe.style.top = "10%"; // Pozicija iframe-a
-    iframe.style.left = "50%";
-    iframe.style.transform = "translateX(-50%)";
-    iframe.style.width = "80%";
-    iframe.style.height = "70vh";
-    iframe.style.border = "none";
-    iframe.style.zIndex = "1000";
-    
-    // Dodajte iframe u body
-    document.body.appendChild(iframe);
+button.addEventListener("click", async () => {
+  if (!slovaContent) {
+    try {
+      // Dinamičko učitavanje sadržaja iz slova.html
+      const response = await fetch("slova.html");
+      const text = await response.text();
 
-    // Dodaj dugme za zatvaranje
-    let closeButton = document.createElement("button");
-    closeButton.innerText = "Zatvori";
-    closeButton.style.position = "absolute";
-    closeButton.style.top = "10px";
-    closeButton.style.right = "10px";
-    closeButton.style.padding = "10px";
-    closeButton.style.cursor = "pointer";
+      // Učitaj sadržaj u glavni body
+      const div = document.createElement("div");
+      div.innerHTML = text;
+      div.style.position = "absolute";
+      div.style.top = "50px"; // Podesi poziciju
+      div.style.left = "10%";
+      div.style.width = "80%";
+      div.style.zIndex = "1000";
+      document.body.appendChild(div);
 
-    closeButton.addEventListener("click", () => {
-      iframe.remove(); // Ukloni iframe kada klikneš na Zatvori
-      iframe = null;
-    });
-
-    document.body.appendChild(closeButton); // Dodaj dugme za zatvaranje
+      slovaContent = div; // Spremi referencu na učitani sadržaj
+    } catch (error) {
+      console.error("Došlo je do greške pri učitavanju sadržaja:", error);
+    }
   } else {
-    // Ako je već otvoren, zatvori iframe
-    iframe.remove();
-    iframe = null;
+    // Ako je sadržaj već učitan, ukloni ga
+    slovaContent.remove();
+    slovaContent = null;
   }
 });
