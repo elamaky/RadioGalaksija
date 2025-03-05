@@ -1,5 +1,25 @@
 document.getElementById('slova').addEventListener('click', function() {
     const dynamicContent = document.getElementById('dynamicContent');
+    
+       document.addEventListener("DOMContentLoaded", function () {
+      const textInput = document.getElementById("textInput");
+      const textColorInput = document.getElementById("textColor");
+      const fontSelect = document.getElementById("fontSelect");
+      const animationSelect = document.getElementById("animationSelect");
+      const speedRange = document.getElementById("speedRange");
+      const fontSizeRange = document.getElementById("fontSize");
+      const generateBtn = document.getElementById("generateBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const textContainer = document.getElementById("textContainer");
+      const textCounter = document.getElementById("textCounter");
+      const textList = document.getElementById("textList");
+      const showListBtn = document.getElementById("showListBtn");
+      const popup = document.getElementById("popup");
+      const popupOverlay = document.getElementById("popupOverlay");
+      const closePopupBtn = document.getElementById("closePopupBtn");
+
+      let textElements = []; // Svi tekstovi će biti pohranjeni u ovom nizu
+      let selectedTextElement = null; // Trenutno selektovan tekst
 
     // JavaScript kod koji generiše HTML
     const slovaHTML = `
@@ -59,27 +79,7 @@ document.getElementById('slova').addEventListener('click', function() {
 });
 
   
-    document.addEventListener("DOMContentLoaded", function () {
-      const textInput = document.getElementById("textInput");
-      const textColorInput = document.getElementById("textColor");
-      const fontSelect = document.getElementById("fontSelect");
-      const animationSelect = document.getElementById("animationSelect");
-      const speedRange = document.getElementById("speedRange");
-      const fontSizeRange = document.getElementById("fontSize");
-      const generateBtn = document.getElementById("generateBtn");
-      const clearBtn = document.getElementById("clearBtn");
-      const textContainer = document.getElementById("textContainer");
-      const textCounter = document.getElementById("textCounter");
-      const textList = document.getElementById("textList");
-      const showListBtn = document.getElementById("showListBtn");
-      const popup = document.getElementById("popup");
-      const popupOverlay = document.getElementById("popupOverlay");
-      const closePopupBtn = document.getElementById("closePopupBtn");
-
-      let textElements = []; // Svi tekstovi će biti pohranjeni u ovom nizu
-      let selectedTextElement = null; // Trenutno selektovan tekst
-
-      // Funkcija za ažuriranje liste teksta
+    // Funkcija za ažuriranje liste teksta
       function updateTextList() {
         textList.innerHTML = ''; // Očisti listu
         textElements.forEach((element, index) => {
