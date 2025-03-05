@@ -80,50 +80,43 @@ function decreaseFontSize() {
 }
 //   ZA ANI TEXT
 const button = document.getElementById("slova");
-let slovaContainer = null;
+let iframe = null;
 
 button.addEventListener("click", () => {
-  if (!slovaContainer) {
-    // Kreiranje kontejnera za `slova.html`
-    slovaContainer = document.createElement("div");
-    slovaContainer.id = "slovaContainer";
-    slovaContainer.style.position = "fixed";
-    slovaContainer.style.top = "10%"; // Ne prekriva dugme
-    slovaContainer.style.left = "50%";
-    slovaContainer.style.transform = "translateX(-50%)";
-    slovaContainer.style.width = "80%";
-    slovaContainer.style.height = "70vh";
-    slovaContainer.style.background = "white";
-    slovaContainer.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.5)";
-    slovaContainer.style.overflow = "auto";
-    slovaContainer.style.padding = "10px";
-    slovaContainer.style.zIndex = "1000";
+  if (!iframe) {
+    // Kreiraj iframe element
+    iframe = document.createElement("iframe");
+    iframe.src = "slova.html"; // Postavite src na `slova.html`
+    iframe.style.position = "fixed";
+    iframe.style.top = "10%"; // Pozicija iframe-a
+    iframe.style.left = "50%";
+    iframe.style.transform = "translateX(-50%)";
+    iframe.style.width = "80%";
+    iframe.style.height = "70vh";
+    iframe.style.border = "none";
+    iframe.style.zIndex = "1000";
+    
+    // Dodajte iframe u body
+    document.body.appendChild(iframe);
 
-    // Dugme za zatvaranje
+    // Dodaj dugme za zatvaranje
     let closeButton = document.createElement("button");
     closeButton.innerText = "Zatvori";
     closeButton.style.position = "absolute";
-    closeButton.style.top = "5px";
+    closeButton.style.top = "10px";
     closeButton.style.right = "10px";
+    closeButton.style.padding = "10px";
+    closeButton.style.cursor = "pointer";
+
     closeButton.addEventListener("click", () => {
-      slovaContainer.remove();
-      slovaContainer = null;
+      iframe.remove(); // Ukloni iframe kada klikneš na Zatvori
+      iframe = null;
     });
 
-    slovaContainer.appendChild(closeButton);
-
-    // Učitavanje `slova.html`
-    fetch("slova.html")
-      .then(response => response.text())
-      .then(data => {
-        slovaContainer.innerHTML += data; // Dodajte sadržaj slova.html u container
-        
-        document.body.appendChild(slovaContainer); // Prikazivanje u aplikaciji
-      });
-
+    document.body.appendChild(closeButton); // Dodaj dugme za zatvaranje
   } else {
-    // Uklanjanje `slova.html` sadržaja
-    slovaContainer.remove();
-    slovaContainer = null;
+    // Ako je već otvoren, zatvori iframe
+    iframe.remove();
+    iframe = null;
   }
 });
