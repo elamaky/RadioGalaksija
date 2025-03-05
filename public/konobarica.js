@@ -83,13 +83,8 @@ const button = document.getElementById("slova");
 let slovaContainer = null;
 
 button.addEventListener("click", () => {
-  if (!isAdmin) {
-    alert("Nemate dozvolu!");
-    return;
-  }
-
   if (!slovaContainer) {
-    // Kreiranje kontejnera za slova.html
+    // Kreiranje kontejnera
     slovaContainer = document.createElement("div");
     slovaContainer.id = "slovaContainer";
     slovaContainer.style.position = "fixed";
@@ -107,6 +102,14 @@ button.addEventListener("click", () => {
         let parser = new DOMParser();
         let doc = parser.parseFromString(data, "text/html");
         slovaContainer.innerHTML = doc.body.innerHTML;
+        
+        // Dodajemo event listener da prebacimo generisani tekst u glavni body
+        slovaContainer.addEventListener("click", (event) => {
+          if (event.target.classList.contains("generated-text")) {
+            document.body.appendChild(event.target.cloneNode(true));
+          }
+        });
+
         document.body.appendChild(slovaContainer);
       });
   } else {
