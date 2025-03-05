@@ -78,34 +78,3 @@ function decreaseFontSize() {
     var newSize = parseInt(currentSize) - 2; // Smanji veličinu fonta za 2px
     messageArea.style.fontSize = newSize + "px";
 }
-//   ZA ANI TEXT
-const button = document.getElementById("slova");
-let slovaContent = null;
-
-button.addEventListener("click", async () => {
-  if (!slovaContent) {
-    try {
-      // Dinamičko učitavanje sadržaja iz slova.html
-      const response = await fetch("slova.html");
-      const text = await response.text();
-
-      // Učitaj sadržaj u glavni body
-      const div = document.createElement("div");
-      div.innerHTML = text;
-      div.style.position = "absolute";
-      div.style.top = "50px"; // Podesi poziciju
-      div.style.left = "10%";
-      div.style.width = "80%";
-      div.style.zIndex = "1000";
-      document.body.appendChild(div);
-
-      slovaContent = div; // Spremi referencu na učitani sadržaj
-    } catch (error) {
-      console.error("Došlo je do greške pri učitavanju sadržaja:", error);
-    }
-  } else {
-    // Ako je sadržaj već učitan, ukloni ga
-    slovaContent.remove();
-    slovaContent = null;
-  }
-});
