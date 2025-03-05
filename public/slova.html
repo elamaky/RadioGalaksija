@@ -1,187 +1,64 @@
-<!-- slova.html -->
-<style>
-   .command-table {
-    background-color: #111;
-    width: 100%;
-    padding: 10px;
-    color: #fff;
-    border-bottom: 1px solid #444;
-  }
+document.getElementById('slova').addEventListener('click', function() {
+    const dynamicContent = document.getElementById('dynamicContent');
 
-  .command-table label,
-  .command-table select,
-  .command-table input,
-  .command-table button {
-    color: #fff;
-    background-color: #222;
-    border: 1px solid #444;
-    padding: 5px 10px;
-    margin: 5px;
-    font-size: 16px;
-  }
+    // JavaScript kod koji generiše HTML
+    const slovaHTML = `
+        <div class="command-table">
+            <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
+            <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
+            <label>Font: 
+                <select id="fontSelect">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                </select>
+            </label>
+            <label>Animacija: 
+                <select id="animationSelect">
+                    <option value="bounce">Bounce</option>
+                    <option value="fadeIn">Fade In</option>
+                    <option value="zoom">Zoom</option>
+                    <option value="shake">Shake</option>
+                    <option value="slideUp">Slide Up</option>
+                    <option value="rotateX">RotateX</option>
+                    <option value="rotateY">RotateY</option>
+                    <option value="rotateZ">RotateZ</option>
+                    <option value="rotate3D">Rotate3D</option>
+                    <option value="marquee">Marquee</option>
+                </select>
+            </label>
+            <label>Brzina animacije:
+                <input type="range" id="speedRange" min="1" max="100" value="50">
+            </label>
+            <label>Veličina fonta:
+                <input type="range" id="fontSize" min="10" max="100" value="50">
+            </label>
+            <button id="generateBtn">Generiši tekst</button>
+            <button id="clearBtn">Obriši selektovani tekst</button>
+            <button id="showListBtn">Kreiraj listu</button>
+            <div id="textCounter">Trenutni broj tekstova: 0</div>
+        </div>
 
-  .command-table button {
-    cursor: pointer;
-  }
+        <div id="textContainer"></div>
+        <div id="popupOverlay" class="popup-overlay"></div>
+        <div id="popup" class="popup">
+            <h2>Lista Tekstova</h2>
+            <ul id="textList" class="text-list"></ul>
+            <button id="closePopupBtn">Zatvori</button>
+        </div>
+    `;
 
-  .command-table button:hover {
-    background-color: #444;
-  }
- .text-display {
-      position: absolute;
-      font-size: 50px;
-      font-weight: bold;
-      font-style: italic;
-      color: #fff;
-      white-space: nowrap;
-      cursor: grab;
-      user-select: none;
+    // Ako je sadržaj već prikazan, ukloni ga; ako nije, dodaj ga
+    if (dynamicContent.innerHTML === '') {
+        dynamicContent.innerHTML = slovaHTML;
+    } else {
+        dynamicContent.innerHTML = '';
     }
+});
 
-    .selected {
-      border: 2px solid #fff; /* Neon bela linija oko selektovanog teksta */
-      padding: 5px;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-30px); }
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes zoom {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      50% { transform: translateX(10px); }
-      75% { transform: translateX(-10px); }
-    }
-    @keyframes slideUp {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(0); }
-    }
-    @keyframes rotateX {
-      0% { transform: rotateX(0deg); }
-      100% { transform: rotateX(360deg); }
-    }
-    @keyframes rotateY {
-      0% { transform: rotateY(0deg); }
-      100% { transform: rotateY(360deg); }
-    }
-    @keyframes rotateZ {
-      0% { transform: rotateZ(0deg); }
-      100% { transform: rotateZ(360deg); }
-    }
-    @keyframes rotate3D {
-      0% { transform: rotate3d(1, 1, 0, 0deg); }
-      100% { transform: rotate3d(1, 1, 0, 360deg); }
-    }
-    @keyframes marquee {
-      0% { transform: translateX(100vw); }
-      100% { transform: translateX(-100vw); }
-    }
-
-    .text-list {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #444;
-      background-color: #222;
-      list-style-type: none;
-    }
-
-    .text-list li {
-      padding: 5px;
-      cursor: pointer;
-      margin-bottom: 5px;
-      border: 1px solid transparent;
-    }
-
-    .text-list li.selected {
-      border: 1px solid #fff;
-      background-color: #444;
-    }
-
-    /* Popup Style */
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #333;
-      padding: 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 500px;
-      display: none;
-      z-index: 1000;
-      overflow-y: auto;
-      max-height: 70%;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 999;
-      display: none;
-    }
-  </style>
-
-  <div class="command-table">
-    <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
-    <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
-    <label>Font: 
-      <select id="fontSelect">
-        <option value="Arial">Arial</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Courier New">Courier New</option>
-        <option value="Georgia">Georgia</option>
-        <option value="Times New Roman">Times New Roman</option>
-      </select>
-    </label>
-    <label>Animacija: 
-      <select id="animationSelect">
-        <option value="bounce">Bounce</option>
-        <option value="fadeIn">Fade In</option>
-        <option value="zoom">Zoom</option>
-        <option value="shake">Shake</option>
-        <option value="slideUp">Slide Up</option>
-        <option value="rotateX">RotateX</option>
-        <option value="rotateY">RotateY</option>
-        <option value="rotateZ">RotateZ</option>
-        <option value="rotate3D">Rotate3D</option>
-        <option value="marquee">Marquee</option>
-      </select>
-    </label>
-    <label>Brzina animacije:
-      <input type="range" id="speedRange" min="1" max="100" value="50">
-    </label>
-    <label>Veličina fonta:
-      <input type="range" id="fontSize" min="10" max="100" value="50">
-    </label>
-    <button id="generateBtn">Generiši tekst</button>
-    <button id="clearBtn">Obriši selektovani tekst</button>
-    <button id="showListBtn">Kreiraj listu</button>
-    <div id="textCounter">Trenutni broj tekstova: 0</div>
-  </div>
-
-  <div id="textContainer"></div>
-  <div id="popupOverlay" class="popup-overlay"></div>
-  <div id="popup" class="popup">
-    <h2>Lista Tekstova</h2>
-    <ul id="textList" class="text-list"></ul>
-    <button id="closePopupBtn">Zatvori</button>
-  </div>
-
-  <script>
+  
     document.addEventListener("DOMContentLoaded", function () {
       const textInput = document.getElementById("textInput");
       const textColorInput = document.getElementById("textColor");
@@ -314,4 +191,4 @@
         popupOverlay.style.display = "none";
       });
     });
-  </script>
+  
