@@ -46,7 +46,10 @@ body {
     align-items: center;
     border-bottom: 2px solid white;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
+    left: 0;
+    bottom: 0;
 }
+
 
 .toolbarBtn {
     padding: 10px 20px;
