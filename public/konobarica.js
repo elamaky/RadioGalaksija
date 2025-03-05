@@ -84,36 +84,45 @@ let slovaContainer = null;
 
 button.addEventListener("click", () => {
   if (!slovaContainer) {
-    // Kreiranje kontejnera
+    // Kreiranje kontejnera za `slova.html`
     slovaContainer = document.createElement("div");
     slovaContainer.id = "slovaContainer";
     slovaContainer.style.position = "fixed";
-    slovaContainer.style.top = "0";
-    slovaContainer.style.left = "0";
-    slovaContainer.style.width = "100vw";
-    slovaContainer.style.height = "100vh";
-    slovaContainer.style.background = "rgba(0, 0, 0, 0.8)";
-    slovaContainer.style.zIndex = "9999";
+    slovaContainer.style.top = "10%"; // Ne prekriva dugme
+    slovaContainer.style.left = "50%";
+    slovaContainer.style.transform = "translateX(-50%)";
+    slovaContainer.style.width = "80%";
+    slovaContainer.style.height = "70vh";
+    slovaContainer.style.background = "white";
+    slovaContainer.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.5)";
+    slovaContainer.style.overflow = "auto";
+    slovaContainer.style.padding = "10px";
+    slovaContainer.style.zIndex = "1000";
 
-    // Učitavanje slova.html
+    // Dugme za zatvaranje
+    let closeButton = document.createElement("button");
+    closeButton.innerText = "Zatvori";
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "5px";
+    closeButton.style.right = "10px";
+    closeButton.addEventListener("click", () => {
+      slovaContainer.remove();
+      slovaContainer = null;
+    });
+
+    slovaContainer.appendChild(closeButton);
+
+    // Učitavanje `slova.html`
     fetch("slova.html")
       .then(response => response.text())
       .then(data => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(data, "text/html");
-        slovaContainer.innerHTML = doc.body.innerHTML;
+        slovaContainer.innerHTML += data; // Dodajte sadržaj slova.html u container
         
-        // Dodajemo event listener da prebacimo generisani tekst u glavni body
-        slovaContainer.addEventListener("click", (event) => {
-          if (event.target.classList.contains("generated-text")) {
-            document.body.appendChild(event.target.cloneNode(true));
-          }
-        });
-
-        document.body.appendChild(slovaContainer);
+        document.body.appendChild(slovaContainer); // Prikazivanje u aplikaciji
       });
+
   } else {
-    // Uklanjanje slova.html
+    // Uklanjanje `slova.html` sadržaja
     slovaContainer.remove();
     slovaContainer = null;
   }
