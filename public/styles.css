@@ -47,8 +47,8 @@ body {
     border-bottom: 2px solid white;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
     position: fixed;
-    left: 0;
-    top: 300;
+    left: 250;
+    top: 0;
 }
 
 
