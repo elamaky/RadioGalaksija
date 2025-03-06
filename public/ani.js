@@ -1,100 +1,94 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const slovaBtn = document.getElementById('slova');
+document.getElementById('slova').addEventListener('click', function() {
     const dynamicContent = document.getElementById('dynamicContent');
+    
+    const slovaHTML = `
+        <div class="command-table">
+            <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
+            <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
+            <label>Font: 
+                <select id="fontSelect">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                </select>
+            </label>
+            <label>Animacija: 
+                <select id="animationSelect">
+                    <option value="bounce">Bounce</option>
+                    <option value="fadeIn">Fade In</option>
+                    <option value="zoom">Zoom</option>
+                    <option value="shake">Shake</option>
+                    <option value="slideUp">Slide Up</option>
+                    <option value="rotateX">RotateX</option>
+                    <option value="rotateY">RotateY</option>
+                    <option value="rotateZ">RotateZ</option>
+                    <option value="rotate3D">Rotate3D</option>
+                    <option value="marquee">Marquee</option>
+                </select>
+            </label>
+            <label>Brzina animacije:
+                <input type="range" id="speedRange" min="1" max="100" value="50">
+            </label>
+            <label>Veličina fonta:
+                <input type="range" id="fontSize" min="10" max="100" value="50">
+            </label>
+            <button id="generateBtn">Generiši tekst</button>
+            <button id="clearBtn">Obriši selektovani tekst</button>
+            <button id="showListBtn">Kreiraj listu</button>
+            <div id="textCounter">Trenutni broj tekstova: 0</div>
+        </div>
 
-    if (!slovaBtn || !dynamicContent) return;
+        <div id="textContainer"></div>
+        <div id="popupOverlay" class="popup-overlay"></div>
+        <div id="popup" class="popup">
+            <h2>Lista Tekstova</h2>
+            <ul id="textList" class="text-list"></ul>
+            <button id="closePopupBtn">Zatvori</button>
+        </div>
+    `;
 
-    slovaBtn.addEventListener('click', function () {
-        const slovaHTML = `
-            <div class="command-table">
-                <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
-                <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
-                <label>Font: 
-                    <select id="fontSelect">
-                        <option value="Arial">Arial</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Courier New">Courier New</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Times New Roman">Times New Roman</option>
-                    </select>
-                </label>
-                <label>Animacija: 
-                    <select id="animationSelect">
-                        <option value="bounce">Bounce</option>
-                        <option value="fadeIn">Fade In</option>
-                        <option value="zoom">Zoom</option>
-                        <option value="shake">Shake</option>
-                        <option value="slideUp">Slide Up</option>
-                        <option value="rotateX">RotateX</option>
-                        <option value="rotateY">RotateY</option>
-                        <option value="rotateZ">RotateZ</option>
-                        <option value="rotate3D">Rotate3D</option>
-                        <option value="marquee">Marquee</option>
-                    </select>
-                </label>
-                <label>Brzina animacije:
-                    <input type="range" id="speedRange" min="1" max="100" value="50">
-                </label>
-                <label>Veličina fonta:
-                    <input type="range" id="fontSize" min="10" max="100" value="50">
-                </label>
-                <button id="generateBtn">Generiši tekst</button>
-                <button id="clearBtn">Obriši selektovani tekst</button>
-                <button id="showListBtn">Kreiraj listu</button>
-                <div id="textCounter">Trenutni broj tekstova: 0</div>
-            </div>
+    dynamicContent.innerHTML = dynamicContent.innerHTML === '' ? slovaHTML : '';
 
-            <div id="textContainer"></div>
-            <div id="popupOverlay" class="popup-overlay"></div>
-            <div id="popup" class="popup">
-                <h2>Lista Tekstova</h2>
-                <ul id="textList" class="text-list"></ul>
-                <button id="closePopupBtn">Zatvori</button>
-            </div>
-        `;
+    const textInput = document.getElementById("textInput");
+    const textColorInput = document.getElementById("textColor");
+    const fontSelect = document.getElementById("fontSelect");
+    const animationSelect = document.getElementById("animationSelect");
+    const speedRange = document.getElementById("speedRange");
+    const fontSizeRange = document.getElementById("fontSize");
+    const generateBtn = document.getElementById("generateBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const textContainer = document.getElementById("textContainer");
+    const textCounter = document.getElementById("textCounter");
+    const textList = document.getElementById("textList");
+    const showListBtn = document.getElementById("showListBtn");
+    const popup = document.getElementById("popup");
+    const popupOverlay = document.getElementById("popupOverlay");
+    const closePopupBtn = document.getElementById("closePopupBtn");
 
-        dynamicContent.innerHTML = dynamicContent.innerHTML === '' ? slovaHTML : '';
-        
-        const textInput = document.getElementById("textInput");
-        const textColorInput = document.getElementById("textColor");
-        const fontSelect = document.getElementById("fontSelect");
-        const animationSelect = document.getElementById("animationSelect");
-        const speedRange = document.getElementById("speedRange");
-        const fontSizeRange = document.getElementById("fontSize");
-        const generateBtn = document.getElementById("generateBtn");
-        const clearBtn = document.getElementById("clearBtn");
-        const textContainer = document.getElementById("textContainer");
-        const textCounter = document.getElementById("textCounter");
-        const textList = document.getElementById("textList");
-        const showListBtn = document.getElementById("showListBtn");
-        const popup = document.getElementById("popup");
-        const popupOverlay = document.getElementById("popupOverlay");
-        const closePopupBtn = document.getElementById("closePopupBtn");
+    let textElements = [];
+    let selectedTextElement = null;
 
-        let textElements = [];
-        let selectedTextElement = null;
+    function updateTextList() {
+        textList.innerHTML = '';
+        textElements.forEach((element, index) => {
+            const listItem = document.createElement('li');
+            listItem.innerText = `Text ${index + 1}`;
+            listItem.dataset.index = index;
 
-        function updateTextList() {
-            textList.innerHTML = '';
-            textElements.forEach((element, index) => {
-                const listItem = document.createElement('li');
-                listItem.innerText = `Text ${index + 1}`;
-                listItem.dataset.index = index;
-
-                listItem.addEventListener('click', function () {
-                    if (selectedTextElement) {
-                        selectedTextElement.classList.remove("selected");
-                    }
-                    selectedTextElement = element;
-                    element.classList.add("selected");
-                });
-
-                textList.appendChild(listItem);
+            listItem.addEventListener('click', function () {
+                if (selectedTextElement) {
+                    selectedTextElement.classList.remove("selected");
+                }
+                selectedTextElement = element;
+                element.classList.add("selected");
             });
-        }
-    });
-});
 
+            textList.appendChild(listItem);
+        });
+    }
+});
 
       // Generiši novi tekst
       generateBtn.addEventListener("click", function () {
