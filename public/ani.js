@@ -188,4 +188,4 @@ document.body.innerHTML = commandTableHTML;
         popup.style.display = "none";
         popupOverlay.style.display = "none";
       });
-    });
+   
