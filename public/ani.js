@@ -1,3 +1,12 @@
+document.getElementById('slova').addEventListener('click', function() {
+  // Proveri da li je div već prikazan
+  const commandTable = document.querySelector('.command-table');
+  
+  if (commandTable) {
+    // Ako je već prikazan, ukloni ga
+    commandTable.remove();
+  } else {
+
 const commandTableHTML = `
 <div class="command-table">
     <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
