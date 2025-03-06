@@ -1,4 +1,5 @@
-  <div class="command-table">
+const commandTableHTML = `
+<div class="command-table">
     <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
     <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
     <label>Font: 
@@ -43,9 +44,11 @@
     <ul id="textList" class="text-list"></ul>
     <button id="closePopupBtn">Zatvori</button>
   </div>
+  `;
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.body.innerHTML = commandTableHTML;
+
+     document.addEventListener("DOMContentLoaded", function () {
       const textInput = document.getElementById("textInput");
       const textColorInput = document.getElementById("textColor");
       const fontSelect = document.getElementById("fontSelect");
