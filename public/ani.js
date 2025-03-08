@@ -1,9 +1,9 @@
 document.getElementById("slova").addEventListener("click", function () {
-    let commandTable = document.getElementById("dynamicCommandTable");
+    let commandTable = document.getElementById("dynamiccommand-table");
     
     if (!commandTable) {
         commandTable = document.createElement("div");
-        commandTable.id = "dynamicCommandTable";
+        commandTable.id = "dynamiccommand-table";
         commandTable.innerHTML = `
             <div class="command-table">
                 <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
