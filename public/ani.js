@@ -1,14 +1,4 @@
-document.getElementById('slova').addEventListener('click', function() {
-  // Proveri da li je div već prikazan
-  const commandTable = document.querySelector('.command-table');
-  
-  if (commandTable) {
-    // Ako je već prikazan, ukloni ga
-    commandTable.remove();
-  } else {
-
-const commandTableHTML = `
-<div class="command-table">
+  <div class="command-table">
     <label>Tekst: <input type="text" id="textInput" value="Animirani tekst"></label>
     <label>Boja teksta: <input type="color" id="textColor" value="#ffffff"></label>
     <label>Font: 
@@ -53,11 +43,9 @@ const commandTableHTML = `
     <ul id="textList" class="text-list"></ul>
     <button id="closePopupBtn">Zatvori</button>
   </div>
-  `;
 
-document.body.innerHTML = commandTableHTML;
-
-     document.addEventListener("DOMContentLoaded", function () {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       const textInput = document.getElementById("textInput");
       const textColorInput = document.getElementById("textColor");
       const fontSelect = document.getElementById("fontSelect");
@@ -188,4 +176,4 @@ document.body.innerHTML = commandTableHTML;
         popup.style.display = "none";
         popupOverlay.style.display = "none";
       });
-   
+    });
