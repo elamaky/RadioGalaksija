@@ -198,15 +198,17 @@ body {
 .command-table {
     background-color: #000;
     width: 500px;
-    padding: 10px;
+    padding: 5px;
     color: #fff;
-    border-bottom: 2px solid #fff; /* Bele neon linije */
+    border: 2px solid #fff; /* Bele neon linije oko tabele */
     position: fixed;
     top: 0;
-    left: 50%;
+    left: 300px;
     transform: translateX(-50%);
     z-index: 99999;
-    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .command-table label,
@@ -215,26 +217,26 @@ body {
 .command-table button {
     color: #fff;
     background-color: #222;
-    border: 2px solid #fff; /* Bele neon granice */
-    padding: 10px;
-    margin: 5px;
-    font-size: 16px;
-    border-radius: 5px;
+    border: 1px solid #fff; /* Bele neon granice */
+    padding: 5px 8px;
+    margin: 2px;
+    font-size: 14px;
+    border-radius: 4px;
 }
 
 .command-table button {
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 5px 10px;
 }
 
 .command-table button:hover {
     background-color: #444;
-    border: 2px solid #fff; /* Neon hover border */
+    border: 1px solid #fff; /* Neon hover border */
 }
 
 .command-table select,
 .command-table input {
-    width: 100%;
+    width: auto;
 }
 
  .text-display {
