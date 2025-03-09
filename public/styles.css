@@ -195,33 +195,48 @@ body {
 }
 
  /* CSS ZA ANIMIRANITEXT */
-  .command-table {
-    background-color: #111;
-    width: 100%;
+.command-table {
+    background-color: #000;
+    width: 500px;
     padding: 10px;
     color: #fff;
-    border-bottom: 1px solid #444;
-  }
+    border-bottom: 2px solid #fff; /* Bele neon linije */
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    border-radius: 10px;
+}
 
-  .command-table label,
-  .command-table select,
-  .command-table input,
-  .command-table button {
+.command-table label,
+.command-table select,
+.command-table input,
+.command-table button {
     color: #fff;
     background-color: #222;
-    border: 1px solid #444;
-    padding: 5px 10px;
+    border: 2px solid #fff; /* Bele neon granice */
+    padding: 10px;
     margin: 5px;
     font-size: 16px;
-  }
+    border-radius: 5px;
+}
 
-  .command-table button {
+.command-table button {
     cursor: pointer;
-  }
+    padding: 10px 20px;
+}
 
-  .command-table button:hover {
+.command-table button:hover {
     background-color: #444;
-  }
+    border: 2px solid #fff; /* Neon hover border */
+}
+
+.command-table select,
+.command-table input {
+    width: 100%;
+}
+
  .text-display {
       position: absolute;
       font-size: 50px;
