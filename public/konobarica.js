@@ -78,3 +78,15 @@ function decreaseFontSize() {
     var newSize = parseInt(currentSize) - 2; // Smanji veličinu fonta za 2px
     messageArea.style.fontSize = newSize + "px";
 }
+
+
+// Kada bot bude dodat
+socket.on("bot_added", (data) => {
+    console.log("Bot added:", data);
+    // Ovde možeš obraditi podatke i ažurirati UI
+});
+
+// Slanje bota ka serveru
+function addBot(data) {
+    socket.emit("add_bot", data); // Ovaj događaj ide ka bot aplikaciji
+}
